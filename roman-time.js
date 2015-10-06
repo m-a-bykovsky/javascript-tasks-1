@@ -1,33 +1,37 @@
+'use strict'; 
+
 var hours = process.argv[2];
 var minutes = process.argv[3];
 
 // Немного замечательного кода и магии by m-a-bykovsky
 if (( 0 <= hours && hours <= 23) && (0 <= minutes && minutes <= 59)) {
-	arabicToRoman(hours,minutes);
+	console.log(convertArabicToRoman(hours) +':'+ convertArabicToRoman(minutes));
 } else {
 	console.log('Время указано не верно');
 }
-function romanDigit(x) {
-	var y
+
+function getRomanDigit(x) {
+	var romanDigit
 	switch (x) {
 		case 1:
-			y="I";
+			romanDigit = "I";
 			break;
 		case 5:
-			y="V";
+			romanDigit = "V";
 			break;
 		case 10:
-			y="X";
+			romanDigit = "X";
 			break;
 		case 50:
-			y="L";
+			romanDigit = "L";
 			break;
 	}
-	return (y)
+	return (romanDigit)
  }
-function numbers(x){
-	var base;
-	var num='';
+ 
+function convertArabicToRoman(x){
+	var rank;
+	var num = '';
 	x = parseInt(x);
 	//console.log(x);
 	if (x == 0){
@@ -37,36 +41,33 @@ function numbers(x){
 		while (x > 0){
 			//Проверяем разрядность
 			if (x.toString().length === 1){
-				base = 1;
+				rank = 1;
 			}
 			else if(x.toString().length === 2){
-				base = 10;
+				rank = 10;
 			}
 			else{
 				console.log('Error ' + x.length + ' ' + typeof(x) + x); //Отладочная
 				process.abort();
 			}
 			//Перевод в римские
-			if (x >= 9*base){
-				num = num + romanDigit(base) + romanDigit(base*10);
-				x = (x - 9*base);
+			if (x >= 9*rank){
+				num = num + getRomanDigit(rank) + getRomanDigit(rank*10);
+				x = (x - 9*rank);
 			}
-			else if (x >= 5*base){
-				num = num + romanDigit(5*base);
-				x = (x - 5*base);
+			else if (x >= 5*rank){
+				num = num + getRomanDigit(5*rank);
+				x = (x - 5*rank);
 			}
-			else if (x >= 4*base){
-				num = num + romanDigit(base) + romanDigit(5*base); 
-				x = (x - 4*base);
+			else if (x >= 4*rank){
+				num = num + getRomanDigit(rank) + getRomanDigit(5*rank); 
+				x = (x - 4*rank);
 			} 
-			else if (x >= base){
-				num = num + romanDigit(base);
-				x = (x - base);	
+			else if (x >= rank){
+				num = num + getRomanDigit(rank);
+				x = (x - rank);	
 			}
 		}
 	}
 	return num
-}
-function arabicToRoman(x,y){
-	console.log(numbers(x) +':'+ numbers(y));
 }
