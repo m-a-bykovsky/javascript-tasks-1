@@ -40,16 +40,9 @@ function convertArabicToRoman(x){
 	else{
 		while (x > 0){
 			//Проверяем разрядность
-			if (x.toString().length === 1){
-				rank = 1;
-			}
-			else if(x.toString().length === 2){
-				rank = 10;
-			}
-			else{
-				console.log('Error ' + x.length + ' ' + typeof(x) + x); //Отладочная
-				process.abort();
-			}
+			rank = ( 1 <= x && x <= 9) ? 1:
+                ( 10 <= x && x <= 59) ? 10:
+                    console.log('Error ' + x.length + ' ' + typeof(x) + x) && process.abort(); //Отладочная
 			//Перевод в римские
 			if (x >= 9*rank){
 				num = num + getRomanDigit(rank) + getRomanDigit(rank*10);
